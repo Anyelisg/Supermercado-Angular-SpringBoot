@@ -1,0 +1,274 @@
+<div class="row justify-content-start">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-venta-detalle-heading"
+        data-cy="VentaDetalleCreateUpdateHeading"
+        jhiTranslate="supermercadoApp.ventaDetalle.home.createOrEditLabel"
+      >
+        Create or edit a Venta Detalle
+      </h2>
+
+      <div>
+        <input
+          type="text"
+          name="searchingCodigo"
+          id="searchingCodigo"
+          [(ngModel)]="codigoSearch"
+          (ngModelChange)="searchingByCodigo()"
+          [ngModelOptions]="{ standalone: true }"
+        />
+      </div>
+
+      <div class="form-group">
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <label class="form-control-label" jhiTranslate="supermercadoApp.ventaDetalle.numeroFactura" for="field_numeroFactura"
+          >Numero Factura</label
+        >
+        <input
+          type="number"
+          class="form-control"
+          name="numeroFactura"
+          id="field_numeroFactura"
+          data-cy="numeroFactura"
+          formControlName="numeroFactura"
+          [(ngModel)]="numeroFacturas"
+        />
+        <div
+          *ngIf="editForm.get('numeroFactura')!.invalid && (editForm.get('numeroFactura')!.dirty || editForm.get('numeroFactura')!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('numeroFactura')?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get('numeroFactura')?.errors?.max"
+            jhiTranslate="entity.validation.max"
+            [translateValues]="{ max: 99999999 }"
+          >
+            This field cannot be more than 99999999.
+          </small>
+          <small
+            class="form-text text-danger"
+            [hidden]="!editForm.get('numeroFactura')?.errors?.number"
+            jhiTranslate="entity.validation.number"
+          >
+            This field should be a number.
+          </small>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+              <tr>
+                <th scope="col">
+                  <label class="form-control-label" jhiTranslate="supermercadoApp.ventaDetalle.nombreProducto" for="field_nombreProducto"
+                    >Nombre Producto</label
+                  >
+                </th>
+                <th scope="col">
+                  <label class="form-control-label" jhiTranslate="supermercadoApp.ventaDetalle.precioProducto" for="field_precioProducto"
+                    >Precio Producto</label
+                  >
+                </th>
+                <th scope="col">
+                  <label
+                    class="form-control-label"
+                    jhiTranslate="supermercadoApp.ventaDetalle.cantidadProducto"
+                    for="field_cantidadProducto"
+                    >Cantidad Producto</label
+                  >
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let producto of productosSharedCollection">
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="nombreProducto"
+                    id="field_nombreProducto"
+                    data-cy="nombreProducto"
+                    formControlName="nombreProducto"
+                    [(ngModel)]="producto.nombre"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('nombreProducto')!.invalid &&
+                      (editForm.get('nombreProducto')!.dirty || editForm.get('nombreProducto')!.touched)
+                    "
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('nombreProducto')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="precioProducto"
+                    id="field_precioProducto"
+                    data-cy="precioProducto"
+                    formControlName="precioProducto"
+                    [(ngModel)]="producto.precioTotal"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('precioProducto')!.invalid &&
+                      (editForm.get('precioProducto')!.dirty || editForm.get('precioProducto')!.touched)
+                    "
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('precioProducto')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('precioProducto')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                    >
+                      This field should be a number.
+                    </small>
+                  </div>
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="cantidadProducto"
+                    id="field_cantidadProducto"
+                    data-cy="cantidadProducto"
+                    formControlName="cantidadProducto"
+                    [(ngModel)]="cantidadProducto"
+                  />
+                  <div
+                    *ngIf="
+                      editForm.get('cantidadProducto')!.invalid &&
+                      (editForm.get('cantidadProducto')!.dirty || editForm.get('cantidadProducto')!.touched)
+                    "
+                  >
+                    <small
+                      class="form-text text-danger"
+                      *ngIf="editForm.get('cantidadProducto')?.errors?.required"
+                      jhiTranslate="entity.validation.required"
+                    >
+                      This field is required.
+                    </small>
+                    <small
+                      class="form-text text-danger"
+                      [hidden]="!editForm.get('cantidadProducto')?.errors?.number"
+                      jhiTranslate="entity.validation.number"
+                    >
+                      This field should be a number.
+                    </small>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="form-group">
+          <div>
+            <label class="form-control-label" jhiTranslate="supermercadoApp.ventaDetalle.totalProducto" for="field_totalProducto"
+              >Total Producto</label
+            >
+          </div>
+          <div>
+            <input
+              type="number"
+              class="form-control"
+              name="totalProducto"
+              id="field_totalProducto"
+              data-cy="totalProducto"
+              formControlName="totalProducto"
+            />
+            <div
+              *ngIf="
+                editForm.get('totalProducto')!.invalid && (editForm.get('totalProducto')!.dirty || editForm.get('totalProducto')!.touched)
+              "
+            >
+              <small
+                class="form-text text-danger"
+                *ngIf="editForm.get('totalProducto')?.errors?.required"
+                jhiTranslate="entity.validation.required"
+              >
+                This field is required.
+              </small>
+              <small
+                class="form-text text-danger"
+                [hidden]="!editForm.get('totalProducto')?.errors?.number"
+                jhiTranslate="entity.validation.number"
+              >
+                This field should be a number.
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="supermercadoApp.ventaDetalle.venta" for="field_venta">Venta</label>
+          <select class="form-control" id="field_venta" data-cy="venta" name="venta" formControlName="venta">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="ventaOption.id === editForm.get('venta')!.value?.id ? editForm.get('venta')!.value : ventaOption"
+              *ngFor="let ventaOption of ventasSharedCollection; trackBy: trackVentaById"
+            >
+              {{ ventaOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+
+    <div>
+      <!-- <div class="alert alert-warning" id="no-result" *ngIf="ventasSharedCollection?.length === 0">
+        <span jhiTranslate="supermercadoApp.ventaDetalle.home.notFound">No ventaDetalles found</span>
+      </div> -->
+      <div class="table-responsive" id="entities" *ngIf="ventasSharedCollection && ventasSharedCollection.length > 0">
+        <div *ngFor="let ventaDetalleOption of ventaDetalleSharedCollection; trackById: trackId">
+          <table class="table table-striped" aria-describedby="page-heading">
+            <tr>
+              <td scope="col">{{ ventaDetalleOption.nombreProducto }}</td>
+              <td scope="col">{{ ventaDetalleOption.cantidadProducto }}</td>
+              <td scope="col">{{ ventaDetalleOption.totalProducto }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

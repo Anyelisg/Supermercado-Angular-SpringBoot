@@ -1,0 +1,48 @@
+{
+  "name": "VentaDetalle",
+  "fields": [
+    {
+      "fieldName": "numeroFactura",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required", "max"],
+      "fieldValidateRulesMax": "99999999"
+    },
+    {
+      "fieldName": "nombreProducto",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "precioProducto",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "cantidadProducto",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "totalProducto",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "venta",
+      "otherEntityRelationshipName": "ventadetalle",
+      "relationshipName": "venta"
+    }
+  ],
+  "entityTableName": "venta_detalle",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20220205151005"
+}
